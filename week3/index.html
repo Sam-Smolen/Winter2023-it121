@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing Javascript</title>
+  <script src="script.js"></script>
+    
+</head>
+
+<body>
+   <script>
+     
+//Now that you've mastered arrays and strings, let's put that knowledge to use with this data:
+var grades = "jim|25, sue|32, mary|34, ann|22, ted|28, frank|15, lisa|19, mike|30, ahn|26, vishaya|27";
+//Create an HTML page with inline JavaScript code that displays student data in a more readable format like so:
+//Name1 - score1
+//Name2 - score2
+//....
+/*display each student name and score 
+capitalize the first letter of student name
+display total # of students,
+display the lowest, highest, and average scores*/
+var gradesArr = grades.split(", ");
+gradesArr.sort();
+var gradeTotal = 0;
+var gradeLow = 0;
+var gradeHigh = 0;
+for(let g = 0; g < gradesArr.length; g++) {
+    var student = gradesArr[g];
+    var studentGradeArr = student.split("|");
+    //console.log(studentGradeArr[1])
+    
+    var name = studentGradeArr[0].trim();
+    var firstChar = name.charAt(0).toUpperCase();
+    var fullName = name.substr(1);
+    var grade = parseInt(studentGradeArr[1]);
+    console.log(firstChar + fullName + " - " + grade);
+    gradeTotal = gradeTotal+ grade;
+
+    if((grade < gradeLow) || (gradeLow == 0)) {
+        gradeLow = grade;
+    }
+    if(grade > gradeHigh) {
+        gradeHigh = grade;
+    } 
+    //console.log( + fullName);
+
+}
+
+var gradeAvg = gradeTotal / gradesArr.length;
+console.log("Number of Students:" + " = " + gradesArr.length);
+console.log("The Highest Score was:" + " " + gradeHigh + "-" +  "The Lowest Score was:" + " " + gradeLow);
+console.log("gradeAvg:" + " = " + gradeAvg);
+console.log("gradeTotal:" + " = " + gradeTotal);
+
+
+
+
+    </script> 
+  <p>Hello World {gradeTotal}</p>
+</body>
+</html>
