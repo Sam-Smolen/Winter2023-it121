@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+</head>
+<body>
+
+<h1>Robo Dealer</h1>
+
+  <button onclick="dealHand();">Deal Hand</button>
+
+<hr><div id="card_hand">
+  <p id="card0"></p>
+  <p id="card1"></p>
+  <p id="card2"></p>
+  <p id="card3"></p>
+  <p id="card4"></p>
+</div>
+
+<script>
+
+window.onload = function() {
+    buildDeck();
+    shuffleDeck();
+}
+
+var cardData = {
+    "suit": ["CLUBS", "DIAMONDS", "HEARTS", "SPADES"],
+    "value": ["ACE", 2, 3, 4, 5, 6, 7, 8, 9, 10, "JACK", "QUEEN", "KING"]
+};
+
+//console.log(card);
+var cardSuit = cardData.suit;
+var cardVal = cardData.value;
+var deck = [];
+
+function buildDeck() {
+    for (let i = 0; i < cardSuit.length; i++) {
+        for (let j = 0; j < cardVal.length; j++) {
+            let card = {"suit":cardSuit[i], "value":cardVal[j]};
+            //console.log("card:" + card.suit + " " + card.value)
+            deck.push(card);
+        }
+    }
+    //return deck;
+}
+
+function shuffleDeck() {
+    for (let i = 0; i < deck.length; i++) {
+        let j = Math.floor(Math.random() * deck.length);
+        let temp = deck[i]; // store card in temp variable 
+        deck[i] = deck[j]; // replace the value of the card, with random card 
+        deck[j] = temp; 
+    }
+    //return deck;
+}
+
+function dealHand() {
+    let hand = [];
+    for (let i = 0; i < 5; i++) {
+        let card = deck.pop();
+        hand.push(card);
+    }
+
+    for (let i = 0; i < hand.length; i++) {
+
+      //console.log($("#card" + i));
+      $("#card" + i).html("- " + hand[i].value + " of " + hand[i].suit);
+      //$("#card_hand").append("<p>" + "- " + hand[i].value + " of " + hand[i].suit + "</p>");
+    }
+    return false;
+}
+
+</script>
+
+</body>
+</html>
