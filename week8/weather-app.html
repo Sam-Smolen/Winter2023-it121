@@ -73,7 +73,7 @@
     </center>
 
    <script>
-    
+
 maxTemp='';
 minTemp='';
 weatherDesc='';
@@ -93,6 +93,12 @@ let dayOfMonth = currentDate.getDate();
 
 console.log(day);
 
+function getMonthName(monthNumber) {
+    const currentDate = new Date();
+    currentDate.setMonth(monthNumber);
+    return currentDate.toLocaleString('en-US', {month:'long'});
+};
+
 function getForecastForCity() {
     var cityName = $("#cityInput").val();
     let url = 'http://api.openweathermap.org/data/2.5/forecast?q=+'+cityName+',us&units=imperial&APPID=9247a4184d20bf6c7ab99280172aa8d0';
@@ -107,10 +113,16 @@ function getForecastForCity() {
     $("#weatherContainer").css("display", "block");
     $(".icons").css("display", "inline-block");
     for(let i = 0; i < 5; i++) { 
-        let day = daysOfWeek[currentDate.getDay()+i];
+        
+        let day = daysOfWeek[currentDate.getDay()];
         $("#day"+(i+1)).append(day);
-        let dayOfMonth = currentDate.getDate()+i;
-        $("#actualDate"+(i+1)).append(month + " " + dayOfMonth + " " + year);
+        let dayOfMonth = currentDate.getDate();
+        let month = currentDate.getMonth();
+        //let monthName = monthNames[month];
+        let monthName = getMonthName(month);
+        //console.log(monthName);
+        currentDate.setDate(currentDate.getDate()+1);
+        $("#actualDate"+(i+1)).append(monthName + " " + dayOfMonth + " " + year);
         
         maxTemp = data.list[i].main.temp_max;
        
