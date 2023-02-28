@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Day Weather App</title>
+    <link rel="stylesheet" href="css/styles.css" type="text/css">
+    <script src="js/jquery.js"></script>
+</head>
+<body>
+    <center>
+    <form action="#">
+    <h1>5 Day Forecast</h1>
+    <input type="text" id="cityInput" placeholder="Enter a City Name">
+    <button>Get Forecast</button>
+    <h2 id="cityName"></h2>
+    <div id="weatherContainer">
+        <div id="iconsContainer">
+            <div class="icons">
+                <p class="weather" id="day1"></p>
+                <p class="actualDate" id="actualDate1"></p>
+                <p class="weatherType" id="day1weather"></p>
+                <div class="image"><img src="" alt="dots" class="imgClass" id="img1"></div>
+                <p class="actualTemp" id="temp1"><b>Temp: </b></p>
+                <p class="humidity" id="humidity1"><b>Humidity:</b> </p>
+                <p class="minValues" id="day1min">min</p>
+                <p class="maxValues" id="day1max">max</p>
+            </div>
+            <div class="icons">
+                <p class="weather" id="day2"></p>
+                <p class="actualDate" id="actualDate2"></p>
+                <p class="weatherType" id="day2weather"></p>
+                <div class="image"><img src="" alt="dots" class="imgClass" id="img2"></div>
+                <p class="actualTemp" id="temp2">Temp:</p>
+                <p class="humidity" id="humidity2">Humidity: </p>
+                <p class="minValues" id="day2min">min</p>
+                <p class="maxValues" id="day2max">max</p>
+            </div>
+            <div class="icons">
+                <p class="weather" id="day3"></p>
+                <p class="actualDate" id="actualDate3"></p>
+                <p class="weatherType" id="day3weather"></p>
+                <div class="image"><img src="" alt="dots" class="imgClass" id="img3"></div>
+                <p class="actualTemp" id="temp3">Temp:</p>
+                <p class="humidity" id="humidity3">Humidity: </p>
+                <p class="minValues" id="day3min">min</p>
+                <p class="maxValues" id="day3max">max</p>
+            </div>
+            <div class="icons">
+                <p class="weather" id="day4"></p>
+                <p class="actualDate" id="actualDate4"></p>
+                <p class="weatherType" id="day4weather"></p>
+                <div class="image"><img src="" alt="dots" class="imgClass" id="img4"></div>
+                <p class="actualTemp" id="temp4">Temp:</p>
+                <p class="humidity" id="humidity4">Humidity: </p>
+                <p class="minValues" id="day4min">min</p>
+                <p class="maxValues" id="day4max">max</p>
+            </div>
+            <div class="icons">
+                <p class="weather" id="day5"></p>
+                <p class="actualDate" id="actualDate5"></p>
+                <p class="weatherType" id="day5weather"></p>
+                <div class="image"><img src="" alt="dots" class="imgClass" id="img5"></div>
+                <p class="actualTemp" id="temp5">Temp:</p>
+                <p class="humidity" id="humidity5">Humidity: </p>
+                <p class="minValues" id="day5min">min</p>
+                <p class="maxValues" id="day5max">max</p>
+            </div>
+        </div>
+    </div>
+    </form>
+    </center>
+
+   <script>
+    
+maxTemp='';
+minTemp='';
+weatherDesc='';
+weatherIcon ='';
+tempDisplay='';
+dailyHumidity='';
+
+const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+let currentDate = new Date();
+let year = currentDate.getFullYear();
+let month = monthNames[currentDate.getMonth()];
+let day = daysOfWeek[currentDate.getDay()];
+let dayOfMonth = currentDate.getDate();
+
+console.log(day);
+
+function getForecastForCity() {
+    var cityName = $("#cityInput").val();
+    let url = 'http://api.openweathermap.org/data/2.5/forecast?q=+'+cityName+',us&units=imperial&APPID=9247a4184d20bf6c7ab99280172aa8d0';
+ fetch(url)
+  .then((response) => response.json())
+  .then((data) => {
+    if (data.list.length == 0){
+        $("#cityName").css("display", "none");
+        return;
+    }
+    $("#cityName").text("--" + cityName + "--");
+    $("#weatherContainer").css("display", "block");
+    $(".icons").css("display", "inline-block");
+    for(let i = 0; i < 5; i++) { 
+        let day = daysOfWeek[currentDate.getDay()+i];
+        $("#day"+(i+1)).append(day);
+        let dayOfMonth = currentDate.getDate()+i;
+        $("#actualDate"+(i+1)).append(month + " " + dayOfMonth + " " + year);
+        
+        maxTemp = data.list[i].main.temp_max;
+       
+        $('#day'+(i+1)+"max").append(" " + Math.round(maxTemp)+"°F");
+   
+        minTemp = data.list[i].main.temp_min;
+        
+        $('#day'+(i+1)+"min").append(" " + Math.round(minTemp)+"°F");
+    
+        weatherDesc = data.list[i].weather[0].main;
+        $('#day'+(i+1)+"weather").text(weatherDesc);
+    
+        weatherIcon = data.list[i].weather[0].icon;
+        $('#img'+(i+1)).attr("src", "http://openweathermap.org/img/wn/"+data.list[i].weather[0].icon+".png");
+    
+        tempDisplay = data.list[i].main.temp;
+        $('#temp'+(i+1)).append(Math.round(tempDisplay)+"°F");
+   
+        dailyHumidity = data.list[i].main.humidity;
+        $('#humidity'+(i+1)).append(dailyHumidity);
+
+    }
+    console.log(data);
+  })
+  .catch(err => alert("City Not Found"));
+  
+}
+
+$('document').ready(function() {
+    
+     $("button").click(function() {
+        getForecastForCity();
+     });
+});
+   </script>
+</body>
+</html>
