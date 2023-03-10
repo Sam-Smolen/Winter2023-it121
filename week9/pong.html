@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>It121 Week 9 Pong</title>
+    <style>
+   canvas {
+    background: black;
+   }
+    </style>
+</head>
+<body>
+
+    <canvas id="myCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth - 50;
+        canvas.height = window.innerHeight - 50;
+        let circleX = 0;
+        let circleY = 0;
+        let minX = 15;
+        let minY = 15;
+        let maxY = canvas.height - 15;
+        let maxX = canvas.width - 15;
+        let dirX = "right";
+        let dirY = "down";
+        let r = getRandomInt(255);
+        let g = getRandomInt(255); 
+        let b = getRandomInt(255);
+
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+
+        function drawCircle() {
+            if(r == 255) {
+                r = 0;
+            } else {
+                r++;
+            }
+            if(g == 255) {
+                g = 0;
+            } else {
+                g++;
+            }
+            if(b == 255) {
+                b = 0;
+            } else {
+                b++;
+            }
+            
+            ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+            ctx.beginPath();
+
+            if (circleX >= maxX ) {
+                dirX = "left";
+            } else if (circleX <= minX ) {
+                dirX = "right";
+            }
+
+            if (dirX == "right"){
+                circleX = circleX + 4;
+            } else if (dirX == "left"){
+                circleX = circleX - 4;
+            }
+
+            if (circleY >= maxY ) {
+                dirY = "up";
+            } else if (circleY <= minY ) {
+                dirY = "down";
+            }
+
+            if (dirY == "down"){
+                circleY = circleY + 3;
+            } else if (dirY == "up"){
+                circleY = circleY - 3;
+            }
+
+            ctx.arc(circleX, circleY, 30, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+        }
+        
+        function drawPaddle(y) {
+            ctx.clearRect(maxX - 50, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'gray';
+            ctx.fillRect(maxX - 20, y, 50, 200);
+
+        }
+
+
+        canvas.addEventListener('mousemove', function(event) {
+            drawPaddle(event.y);
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width - 50, canvas.height);
+            drawCircle();
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+
+    
+
+</body>
+</html>
