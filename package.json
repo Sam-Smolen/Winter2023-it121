@@ -1,0 +1,19 @@
+{
+  "name": "winter2023-it121",
+  "version": "1.0.0",
+  "description": "it121 intro to javascript",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sam-Smolen/Winter2023-it121.git"
+  },
+  "author": "Sam Smolen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sam-Smolen/Winter2023-it121/issues"
+  },
+  "homepage": "https://github.com/Sam-Smolen/Winter2023-it121#readme"
+}
